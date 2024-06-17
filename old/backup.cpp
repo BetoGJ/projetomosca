@@ -11,7 +11,6 @@ int main(){
     int login_value = 0;
     int opcao;
     int periodo;
-    int teste;
     registroAluno registroAluno;
     registroProfessor registroProfessor;
     alunoMaterias alunoMaterias;
@@ -47,12 +46,10 @@ int main(){
         
         if(login_value == 1){
         
+            menu({"Notas", "Horarios", "Salas", "Contato", "Escolher Mat√©rias"}, true);
             cout << "Matricula: " << registroAluno.matricula << " ";
-            menu({"Notas", "Horarios", "Salas", "Contato", "Escolher MatÈrias"}, true);
-            teste = escolha();
-            switch(teste){
+            switch(escolha()){
                 case 5:
-                cout << "Cu";
                 char materiaVerifica[100];
                 char turmaVerifica;
                     ifstream arqTurmas("arquivoTurmas.txt");
@@ -66,7 +63,7 @@ int main(){
                                 }
                                 arqmaterias.close();
                             }
-                           arqTurmas.close();
+                           
                             
                             cout << "Digite a materia" << endl;
                             cin.getline(materiaVerifica,100);
@@ -76,22 +73,21 @@ int main(){
                             ofstream arqmateriassalva("alunoMaterias.txt");
                                 arqmateriassalva << registroAluno.matricula << " " << registroAluno.nome << " " << materiaVerifica << " " << turmaVerifica;
                             arqmateriassalva.close();
-                            break;
-            }
-                 
-        }
+                        }
+                     
+                    }
                     
             
             
           
         
-        else if(login_value == 2){
+        }else if(login_value == 2){
 
             menu({"Registrar materias novas", "Atualizar notas", "Horarios de aula", "Contato"}, true);
             cout << "ID: " << registroProfessor.id << endl;
             switch(escolha()){
                 case 1:
-					
+					turmas turmas;
 					int verifica;
 					menu({"Escreva a materia"});
 					cin.getline(turmas.materia,100);
@@ -103,7 +99,7 @@ int main(){
 					menu({"Escreva o horario"}); 
 					cin.getline(turmas.hora1,100);
 					menu({"adicionar outro dia de aula?"}); 
-					menu({"Sim", "N„o"}, true, false); 
+					menu({"Sim", "N√£o"}, true, false); 
 					cin >> verifica;
 					if(verifica == 1){
 						menu({"Escreva o dia"});
@@ -118,7 +114,7 @@ int main(){
 					}
 					menu({"Escreva a matricula do monitor"});
 					cin >> turmas.monitor;
-                    menu({"Escreva o perÌodo da matÈria"});
+                    menu({"Escreva o per√≠odo da mat√©ria"});
                     cin >> turmas.periodo;
 					ofstream arq;
 					arq.open("arquivoTurmas.txt", ios::app);
@@ -140,7 +136,7 @@ int main(){
                     while(arqMateriasProfessor >> turmas.turma >> turmas.materia >> turmas.dia >> turmas.hora1 >> turmas.dia2 >> turmas.hora2 >> 
                     turmas.professor >> turmas.monitor >> turmas.periodo){
                         if(turmas.professor == registroProfessor.id){
-                            cout << turmas.materia << " " << turmas.professor << " " << endl;
+                            cout << turmas.materia << " " << turmas.professor << " " <<< endl;
                         }
                     }
                             cout << "Digite a materia" << endl;
@@ -148,14 +144,13 @@ int main(){
                             cout << "Digite a turma" << endl;
                             cin >> turmaVerifica;
 
-                    ifstream alunosMateriasArq("alunosMaterias.txt");
-                    while(alunosMateriasArq >> alunosMaterias.matricula >> alunosMaterias.nomeAluno >> alunosMaterias.materia
+                    ifstream alunosMaterias("alunosMaterias.txt");
+                    while(alunosMaterias >> alunosMaterias.matricula >> alunosMaterias.nomeAluno >> alunosMaterias.materia
                      >> alunosMaterias.turma){
                         if(strcmp(materiaVerifica, alunosMaterias.materia) == 0 && alunosMaterias.turma = turmaVerifica){
                             cout << alunosMaterias.matricula << " " << alunosMaterias.nomeAluno << endl;
                           } 
                         }
-                        alunosMateriasArq.close();
                     cout << "Digite a matricula do aluno que deseja adicionar nota da prova" << endl;
                     cin >> matriculaVerifica;
 
@@ -163,7 +158,7 @@ int main(){
                         cout << "Digite a nota da NP1";
                         cin >> NP1Verifica;
                         if(NP1Verifica > 100 || NP1Verifica < 0){
-                            cout << "Nota inv·lida!";
+                            cout << "Nota inv√°lida!"
                         }
                         }while(NP1Verifica > 100 || NP1Verifica < 0);
 
@@ -171,31 +166,28 @@ int main(){
                         cout << "Digite a nota da NP2";
                         cin >> NP2Verifica;
                         if(NP1Verifica > 100 || NP1Verifica < 0){
-                            cout << "Nota inv·lida!";
+                            cout << "Nota inv√°lida!"
                         }
                    
                     }while(NP2Verifica > 100 || NP2Verifica < 0);
 
-                    
+                    }
                     ofstream alunosNotas("alunoNotas.txt");
                     alunosNotas << matriculaVerifica << " " << materiaVerifica << " " << turmaVerifica << " "
                     << NP1Verifica << " " << NP2Verifica << " ";
-                        alunosNotas.close();
-                        
-                    }
-        }
-                     
+                        arq.close();
+                        }
+                     }
                     
                     
-                    
+                    break;
 			
             
-        else if(login_value == 3){
-            menu({"Notas", "Horarios", "Salas", "Contato", "Atualizar notas", "Escolher matÈrias", "Atualizar notas"}, true);
+        }else if(login_value == 3){
+            menu({"Notas", "Horarios", "Salas", "Contato", "Atualizar notas", "Escolher mat√©rias", "Atualizar notas"}, true);
             cout << "Matricula: " << registroAluno.matricula << endl;
             switch(escolha()){
                 
             }
            }
 }
-

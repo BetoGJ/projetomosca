@@ -5,8 +5,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
+
 
 struct registroAluno {
     string nome;
@@ -29,13 +31,26 @@ struct turmas{
 		char hora2[100];
 		char dia[100];
 		char dia2[100];
-		char Professor[100];
+		int professor;
 		int monitor;
+        int periodo;
 	};
-
+struct notas{
+    int alunoMat;
+    char materia[100];
+    char turma;
+    int NP1;
+    int NP2;
+};
+struct alunoMaterias{
+    int matricula;
+    char nome[100];
+    char materia[100];
+    char turma;
+};
 void registre() {
-    menu({"Digite sua categoria"});
-	menu({"Aluno", "Professor"}, true);
+   
+	menu({"Aluno", "Professor"}, false);
     int categoria = escolha();
     while (categoria < 1 || categoria > 2) {
         menu({"Insira sua categoria novamente"});
@@ -57,7 +72,6 @@ void registre() {
     } else if (categoria == 2) {
         registroProfessor professor;
         menu({"Digite seu nome"});
-        cin.ignore();
         getline(cin, professor.nome);
         menu({"Digite sua senha"});
         getline(cin, professor.senha);
@@ -69,14 +83,12 @@ void registre() {
     }
 }
 
-int login(int &matricula, int &categoria, int &id) {
+int login(string &nomeAluno, int &matricula, int &categoria, int &id, int &periodo) {
     string senha;
     string senha2;
     int matricula2;
     int id2;
     string nome;
-    categoria = 0;
-    int periodo;
     bool loginSucesso = false;
     bool alunoMonitor = false;
     turmas turmas;
@@ -88,7 +100,6 @@ int login(int &matricula, int &categoria, int &id) {
     if (categoria == 1) {
         menu({"Digite sua matrícula: "});
         cin >> matricula;
-        cin.ignore();
         menu({"Digite sua senha"});
         cin >> senha;
 
@@ -96,36 +107,56 @@ int login(int &matricula, int &categoria, int &id) {
         while (arq >> nome >> senha2 >> matricula2 >> periodo) {
             if (matricula == matricula2 && senha == senha2) {
                 loginSucesso = true;
+                nomeAluno = nome;    
+                break;
+            }
+        }
+      
+        ifstream arqTurmas("arquivoTurmas.txt");
+        while (arqTurmas >> turmas.materia >> turmas.turma >> turmas.dia >> turmas.hora1 >> turmas.dia2 >> turmas.hora2
+         >> turmas.professor >> turmas.monitor >> turmas.periodo) {
+
+            if (matricula == turmas.monitor) {
                 categoria = 3;
                 break;
             }
+             
         }
         arq.close();
 
-        ifstream ("arquivoTurmas.txt");
-        while (arq >> turmas.materia >> turmas.turma >> turmas.dia >> turmas.hora1 >> turmas.dia2 >> turmas.hora2
-         >> turmas.Professor >> turmas.monitor) {
-            if (matricula == turmas.monitor) {
-                loginSucesso = true;
-                categoria = 3;
-                break;
-            }
-        }
-        arq.close();
 
         if (loginSucesso) {
+
             // Login bem-sucedido, pode adicionar outras ações aqui se necessário
         } else {
             int pause;
             cout << "Senha ou matricula errados!" << endl;
-            cin >> pause;
             return 0;
         }
     }
-
-    // Adicione o tratamento para categoria == 2 (professor) se necessário
-
-    return 0; // Faltou retornar algo no caso geral
-}
-
+    else if(categoria == 2){
+		menu({"Digite seu id"});
+		cin >> id;
+        cin.ignore();
+ 		menu({"Digite sua senha"});;
+ 		getline(cin, senha);
+ 		
+ 		ifstream arq("arquivoProfessores.txt");
+		while (arq >> nome >> senha2 >> id2) {
+            if (id == id2 && senha.compare(senha2) == 0) {		
+                loginSucesso = true;
+            }
+		
+		}
+        arq.close();
+    }
+		
+		if(loginSucesso){
+			return categoria;
+		}
+        else{
+			cout << "Senha ou matricula errados!" << endl;
+			return 0;
+		}
+    }
 #endif
