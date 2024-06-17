@@ -1,12 +1,6 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
-#include "teste.cpp"
-
-void clear(){
-	printf("\033c");
-}
-
 
 using namespace std;
 
@@ -31,36 +25,32 @@ using namespace std;
 	struct turmas{
 		char turma;
 		char materia[100];
-		char hora1[100];
-		char hora2[100];
+		char hora1[5];
+		char hora2[5];
 		char dia[100];
 		char dia2[100];
 		char Professor[100];
-		int monitor;
-	};
+		int monitor1[100];
+	}
 	
 	void registrar(){
 
 		int i = 0;
 		int categoria;
-
 		registroAluno registroAluno;
 		registroProfessor registroProfessor;
-		clear();
-		abluble();
+		
 		cout << "------- Digite sua categoria -------" << endl;
  		cout << "------- 1 - Aluno            -------" << endl;
  		cout << "------- 2 - Professor        -------" << endl;
 		cin >> categoria;
 		cin.ignore();
-		clear();
-		while(categoria < 1 || categoria > 2){
-				clear();
-				cout << "------- Insira sua categoria novamente -------" << endl;
-				cin >> categoria;
-				cin.ignore();
+
+		 while(categoria < 1 || categoria > 2){
+				 cout << "------- Insira sua categoria novamente -------" << endl;
+				 cin >> categoria;
+				 cin.ignore();
 			 }
-		clear();
 		if(categoria == 1){
 			cout << "------- Digite seu nome -------" << endl;
  			cin.getline(registroAluno.nome,100);
@@ -107,7 +97,7 @@ using namespace std;
 	    categoria = 0;
 		int periodo;
 	    bool loginSucesso = false;
-	 	clear();
+	 	
 		cout << "------- Digite sua categoria -------" << endl;
  		cout << "------- 1 - Aluno            -------" << endl;
  		cout << "------- 2 - Professor        -------" << endl;
@@ -169,7 +159,7 @@ int main(){
 	registroProfessor registroProfessor;
 	
 	do{
-		clear();
+	
 	   	cout << "-------------------------------------" << endl;
 	   	cout << "--------       Menu      ------------" << endl;
 		cout << "-------- 1 - Registro    ------------" << endl;
@@ -180,33 +170,31 @@ int main(){
  	   	  	cin >> escolha;
 	   	 	cin.ignore();
 	
- 	switch(escolha){
-		case 1:
-			registrar();
-			break;
-		
-		case 2:
-			login = loginVerifica(registroAluno.matricula, categoriaLogin, registroProfessor.id);
-			
-			if(login == 0){
-				
-			}
-			else{
-				escolha = 4;
-			}
-			break;
-		
-		case 3:
-			clear();
-			cout << "By : Beto, Betina, Elisa, Thiago" << endl;
-			cout << "----- Mosca corrige com carinho to escrevendo isso num domingo a tarde S2 -----" << endl;
-			break;
-	}
+ 	
+ 	case 1:
+ 		registrar();
+		break;
+	 
+	case 2:
+	 	login = loginVerifica(registroAluno.matricula, categoriaLogin, registroProfessor.id);
+	 	
+		if(login == 0){
+			 
+		}
+		else{
+			 escolha = 4;
+		}
+		break;
+	
+	case 3:
+		cout << "By : Beto, Betina, Elisa, Thiago" << endl;
+		cout << "----- Mosca corrige com carinho to escrevendo isso num domingo a tarde S2 -----" << endl;
+		break;
+	 
 	}while(escolha != 4);
 	
 	if(login != 0){
-		if(categoriaLogin == 1){
-			clear();
+		if(categoriaLogin){
 			cout << "------" << registroAluno.matricula << "----- Menu do Aluno --------------" << endl;
 			cout << "-------------- 1 - Notas --------------" << endl;
 			cout << "-------------- 2 - Horarios --------------" << endl;
@@ -215,50 +203,46 @@ int main(){
 			cin >> escolha;
 		}
 		else if(categoriaLogin == 2){
-			clear();
 			cout << "------" << registroProfessor.id << "----- Menu do Professor --------------" << endl;
-			cout << "-------------- 1 - Registrar materias novas --------------" << endl;
+			cout << "-------------- 1 - Registrar matérias novas --------------" << endl;
 			cout << "-------------- 2 - Atualizar notas --------------" << endl;
 			cout << "-------------- 3 - Horarios de aula --------------" << endl;
 			cout << "-------------- 4 - Contato --------------" << endl; 
 			cin >> escolha;
-			switch(escolha){
-				case 1:
-					turmas turmas;
-					int verifica;
-					cin.ignore();
-					cout << "-------------- Escreva a materia --------------" << endl;
-					cin.getline(turmas.materia,100);
-					cout << "-------------- Escreva a turma --------------" << endl;
-					cin >> turmas.turma;
-					cin.ignore();
-					cout << "-------------- Escreva o dia --------------" << endl;
-					cin.getline(turmas.dia,100);
-					cout << "-------------- Escreva o horario --------------" << endl;
-					cin.getline(turmas.hora1,100);
-					cout << "-------------- Deseja adicionar outro dia de aula? --------------" << endl;
-					cout << "-------------- 1 - Sim 2 - Não --------------" << endl;
-					cin >> verifica;
-					if(verifica == 1){
-						cout << "-------------- Escreva o dia --------------" << endl;
-						cin.ignore();
-						cin.getline(turmas.dia2,100);
-						cout << "-------------- Escreva o horario --------------" << endl;
-						cin.getline(turmas.hora2,6);
-					}
-					else{
-						strcpy(turmas.dia2,"0");
-						strcpy(turmas.hora2,"0");
-					}
-					cout << "-------------- Escreva a matricula do monitor --------------" << endl;
-					cin >> turmas.monitor;
-					ofstream arq;
-					arq.open("arquivoTurmas.txt", ios::app);
-					arq << turmas.materia << " " << turmas.turma << " " << turmas.dia << " " << turmas.hora1 << " " <<
-					turmas.dia2 << " " << turmas.hora2 << " " << registroProfessor.id << " " << turmas.monitor << " ";
-					arq.close();
-					break;
-			}
+
+			case 1:
+				turmas turmas;
+				int verifica;
+				cout << "-------------- Escreva a matéria --------------";
+				cin.getline(turmas.materia,100);
+				cout << "-------------- Escreva a turma --------------";
+				cin >> turmas.turma;
+				cin.ignore();
+				cout << "-------------- Escreva o dia --------------";
+				cin.getline(turmas.dia,100);
+				cout << "-------------- Escreva o horario --------------";
+				cin.getline(turmas.hora1,10);
+				cout << "-------------- Deseja adicionar outro dia de aula? --------------";
+				cout << "-------------- 1 - Sim 2 - Não --------------";
+				cin >> verifica;
+				if(verifica){
+					cout << "-------------- Escreva o dia --------------";
+					cin.getline(turmas.dia2,100);
+					cout << "-------------- Escreva o horario --------------";
+					cin.getline(turmas.hora2,5);
+				}
+				else{
+					turmas.dia2 = 0;
+					turmas.hora2 = 0;
+				}
+				cout << "-------------- Escreva a matricula do monitor --------------"
+				cin >> turmas.monitor;
+				arq.open("arquivoTurmas.txt", ios::app);
+				arq << turmas.materia << " " << turmas.turma << " " << turmas.dia << " " << turmas.hora1 << " " <<
+				turmas.dia2 << " " << turmas.hora2 << " " << registroProfessor.id << " " << turmas.monitor << " ";
+				arq.close();
+				break;
+		
 
 	}
 
